@@ -1,8 +1,22 @@
 @import "tailwindcss";
-
+@import 'tailwind-scrollbar-hide/v4';
+@tailwind utilities;
 html,
 body,
 #root {
   height: 100%;
   margin: unset;
+
+}
+.thin-scrollbar::-webkit-scrollbar {
+  width: 7px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
 }

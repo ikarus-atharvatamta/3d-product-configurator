@@ -13,9 +13,9 @@ function App() {
 
   return (
     <>
-      <div className="flex h-screen w-screen bg-gray-100">
+      <div className="flex h-screen w-screen overflow-hidden bg-gray-100 ">
         {/* 3d viewer */}
-        <div className="flex-1">
+        <div className="flex-1 relative bg-gray-100">
           <Viewer />
         </div>
 

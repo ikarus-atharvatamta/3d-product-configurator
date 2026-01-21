@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect,forwardRef } from "react";
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import { useConfiguratorStore } from "../Store/useConfiguratorStore";
 
-export default function Furniture() {
+const Furniture = forwardRef((props,ref)=> {
+  //loading from store
   const productId = useConfiguratorStore((state) => state.productId);
   const woodFinish = useConfiguratorStore((state) => state.woodFinish);
   const handleNumber = useConfiguratorStore((state) => state.handleNumber);
@@ -38,6 +39,9 @@ export default function Furniture() {
     })
 
   }
+
+  
+//useEffect for loading textures a(basemap and roughnessmap)
   useEffect(() => {
     const baseColorPath = `/models/${productId}/Varients/WOOD LAMINATE FINISHES/${woodFinish}`;
     const roughnessPath = `/models/${productId}/Varients/Default_Roughness.png`;
@@ -75,6 +79,7 @@ export default function Furniture() {
     })
   
   },[handleFinish,handleGltf])
+
   //   useEffect to handle the handles
   useEffect(() => {
     const handleScene = handleGltf.scene.clone();
@@ -92,7 +97,8 @@ export default function Furniture() {
       scene.remove(legScene);
     };
   }, [legsGltf,scene]);
+  
+  return <primitive ref={ref} object={scene} position={[0, -0.7, 0]} />;
+})
+ export default Furniture;
 
-
-  return <primitive object={scene} position={[0, -0.7, 0]} />;
-}

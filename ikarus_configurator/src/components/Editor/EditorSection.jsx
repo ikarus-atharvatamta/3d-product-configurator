@@ -3,7 +3,7 @@ import { ChevronDown } from "lucide-react";
 const EditorSection = ({ title, valuelabel, previewImage, isOpen, onToggle, children }) => {
   return (
     <>
-      <div className="border border-gray-200 px-3 py-2 overflow-hidden">
+      <div className="border border-gray-200 px-3 py-2 ">
       <button
         onClick={onToggle}
         className="w-full flex items-center justify-between px-4 py-3 bg-white cursor-pointer"

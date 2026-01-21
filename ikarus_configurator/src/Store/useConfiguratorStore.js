@@ -7,6 +7,7 @@ export const useConfiguratorStore = create((set) => ({
   legsFinish : "Amber.png",
   legsNumber: "A",
   handleFinish : "Antique English.jpg",
+  showMeasurements : false,
   setProductId: (id) =>
     set({
       productId: id, //resetting dependent state in setProductid
@@ -14,11 +15,13 @@ export const useConfiguratorStore = create((set) => ({
       handleNumber: 1,
       legsNumber: "A",
       legsFinish : "Amber.png",
-      handleFinish : "Antique English.jpg"
+      handleFinish : "Antique English.jpg",
+      showMeasurements : false,
     }),
-     setLegsFinish: (finish) => set({ legsFinish: finish }),
-  setWoodFinish: (finish) => set({ woodFinish: finish }),
-  setHandleNumber: (num) => set({ handleNumber: num }),
-  setLegsNumber : (type) => set({legsNumber : type}),
-  setHandleFinish : (finish) => set({handleFinish :finish})
+    setWoodFinish: (finish) => set({ woodFinish: finish }),
+    setHandleNumber: (num) => set({ handleNumber: num }),
+    setLegsNumber : (type) => set({legsNumber : type}),
+    setHandleFinish : (finish) => set({handleFinish :finish}),
+    setLegsFinish: (finish) => set({ legsFinish: finish }),
+    toggleMeasurements :()=> set((state)=> ({showMeasurements : !state.showMeasurements}))
 }));
