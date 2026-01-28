@@ -7,14 +7,17 @@ import { Suspense, useRef } from "react";
 import { useConfiguratorStore } from "../Store/useConfiguratorStore";
 import ThreeBridge from "./ThreeBridge";
 import CameraReset from "./CameraReset";
+import ARQRmodal from "./AR/ARQRmodal";
 
 export default function Viewer() {
+
   const modelRef = useRef();
   const controlsRef = useRef();
   const showMeasurements = useConfiguratorStore(
     (state) => state.showMeasurements,
   );
   console.log(modelRef)
+
 
   return (
     <div className="absolute inset-0">
@@ -23,15 +26,15 @@ export default function Viewer() {
         camera={{ position: [0, 0.4, 2.5], fov: 50 }}
         shadows
       >
-        <Stage environment="studio" intensity={0.2} adjustCamera={false} shadows={false} >
+        <Stage environment="warehouse" intensity={0.16} adjustCamera={false} shadows={false} >
           {/* MODEL */}
-          <Suspense fallback="laoding">
+          <Suspense fallback="loading">
             <Furniture ref={modelRef} />
             <CameraReset controlsRef={controlsRef} modelRef={modelRef}/>
           </Suspense>
           </Stage>
       
-          <ContactShadows position={[0,-0.414,0]} opacity={0.35} scale={1.5} blur={14} far={10} resolution={256} color="#000000" />  
+          <ContactShadows position={[0,-0.414,0]} opacity={0.35} scale={1.5} blur={10} far={10} color="#000000" />  
       
         {showMeasurements && (
           <Measurements key="measurements" targetRef={modelRef} />
@@ -40,6 +43,7 @@ export default function Viewer() {
         {/* CONTROLS */}
         <OrbitControls
           ref={controlsRef}
+          enableDamping = {true}
           enablePan={true}
           enableRotate={true}
           makeDefault={true}

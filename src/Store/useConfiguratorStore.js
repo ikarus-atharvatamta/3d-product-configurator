@@ -31,7 +31,7 @@ export const useConfiguratorStore = create((set) => ({
   toggleMeasurements: () =>
     set((state) => ({ showMeasurements: !state.showMeasurements })),
   setThreeState: (gl, scene, camera) => set({ gl, scene, camera }),
-  triggerExport: () => set({ exportModel: true }),
+  triggerExport: () => set({ exportModel: true,arModelurl:null }),
   //export the model
   resetExport: () => set({ exportModel: false }),
   setArModelurl :(url) => set({arModelurl:url}),

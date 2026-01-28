@@ -1,9 +1,21 @@
-import { Camera, RulerDimensionLine, Smartphone,Plus,Minus } from "lucide-react";
+import {
+  Camera,
+  RulerDimensionLine,
+  Smartphone,
+  Plus,
+  Minus,
+} from "lucide-react";
 import { useConfiguratorStore } from "../Store/useConfiguratorStore";
 import { useNavigate } from "react-router-dom";
+import ARQRmodal from "./AR/ARQRmodal";
+import { useState } from "react";
 
-const ViewerControls = ({controlsRef}) => {
-  const triggerExport = useConfiguratorStore((state)=>state.triggerExport);
+import ar from"../../public/ar.png"
+
+const ViewerControls = ({ controlsRef }) => {
+      const [arodelurl,setArodelUrl] = useState(null)
+  const [showQR, setShowQR] = useState(false);
+  const triggerExport = useConfiguratorStore((state) => state.triggerExport);
   const gl = useConfiguratorStore((state) => state.gl);
   const scene = useConfiguratorStore((state) => state.scene);
   const camera = useConfiguratorStore((state) => state.camera);
@@ -26,41 +38,58 @@ const ViewerControls = ({controlsRef}) => {
     link.download = "screenshot.png";
     link.click();
   };
-  const zoomIn = ()=>
-  {
+  const zoomIn = () => {
     const controls = controlsRef.current;
     const camera = controls.object;
 
-    const direction = camera.position.clone()
-    .sub(controls.target)
-    .normalize();
+    const direction = camera.position.clone().sub(controls.target).normalize();
 
     const distacnce = camera.position.distanceTo(controls.target);
-    const newDistance = Math.max(distacnce - 0.3,controls.minDistance);
-    
-    camera.position.copy(controls.target.clone().add(direction.multiplyScalar(newDistance)))
+    const newDistance = Math.max(distacnce - 0.3, controls.minDistance);
+
+    camera.position.copy(
+      controls.target.clone().add(direction.multiplyScalar(newDistance)),
+    );
     controls.update();
-  }
-  const zoomOut = ()=>
-  {
+  };
+  const zoomOut = () => {
     const controls = controlsRef.current;
     const camera = controls.object;
 
-    const direction = camera.position.clone()
-    .sub(controls.target)
-    .normalize();
+    const direction = camera.position.clone().sub(controls.target).normalize();
 
     const distacnce = camera.position.distanceTo(controls.target);
-    const newDistance = Math.min(distacnce + 0.3,controls.maxDistance);
-    
-    camera.position.copy(controls.target.clone().add(direction.multiplyScalar(newDistance)))
-    controls.update();
-  }
+    const newDistance = Math.min(distacnce + 0.3, controls.maxDistance);
 
-  return (
+    camera.position.copy(
+      controls.target.clone().add(direction.multiplyScalar(newDistance)),
+    );
+    controls.update();
+  };
+  const arModelurl = useConfiguratorStore((s)=>s.arModelurl)
+   return (
     <>
+      <div className="absolute left-15 bottom-1/4 translate-y-1/3">
+        {" "}
+        <button
+          onClick={()=>{
+            triggerExport(); //trigger model export
+            setShowQR(true); //show qr modal
+          }}
+          className="w-full px-2 h-10 text-sm rounded-sm bg-white shadow flex items-center justify-center cursor-pointer mt-2"
+        >
+
+          <Smartphone/>View in AR
+
+        </button>
+      </div>
+        <ARQRmodal
+          open={showQR}
+          onClose={() => setShowQR(false)}
+          arUrl={arModelurl}
+        />
       {/* screenshot button */}
-      <div className="absolute right-4 top-1/3 translate-y-1/2">
+      <div className="absolute right-4 top-1/3 translate-y-1/4">
         <button
           onClick={takeScreenshot}
           className="w-10 h-10 rounded-sm bg-white shadow flex items-center justify-center cursor-pointer "
@@ -74,26 +103,21 @@ const ViewerControls = ({controlsRef}) => {
         >
           <RulerDimensionLine />
         </button>
-        <button
-          onClick={triggerExport}
-          className="w-10 h-10 rounded-sm bg-white shadow flex items-center justify-center cursor-pointer mt-2"
-        >
-          <Smartphone />
-        </button>
-         {/* Zoom In */}
-      <button
-        onClick={zoomIn}
-        className="w-10 h-10 bg-white shadow rounded-sm flex items-center justify-center cursor-pointer mt-2"
-      >
-        <Plus />
-      </button>
 
-      <button
-        onClick={zoomOut}
-        className="w-10 h-10 bg-white shadow rounded-sm flex items-center justify-center cursor-pointer mt-2"
-      >
-        <Minus />
-      </button>
+        {/* Zoom In */}
+        <button
+          onClick={zoomIn}
+          className="w-10 h-10 bg-white shadow rounded-sm flex items-center justify-center cursor-pointer mt-2"
+        >
+          <Plus />
+        </button>
+
+        <button
+          onClick={zoomOut}
+          className="w-10 h-10 bg-white shadow rounded-sm flex items-center justify-center cursor-pointer mt-2"
+        >
+          <Minus />
+        </button>
       </div>
     </>
   );
