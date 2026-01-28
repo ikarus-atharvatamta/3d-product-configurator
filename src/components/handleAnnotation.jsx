@@ -12,20 +12,20 @@ const HandleAnnotation = ({ handleMesh, controlsRef }) => {
   const focusedPoint = useConfiguratorStore((state) => state.focusedPoint);
   const position = new THREE.Vector3();
   handleMesh.getWorldPosition(position);
-  console.log(position);
+  console.log("handle mesh position", position);
   return (
     <Html position={[position.x + 0.032, position.y - 0.3, position.z]} center>
       <button
         onClick={() => {
           const pos = new THREE.Vector3();
           handleMesh.getWorldPosition(pos);
-          const controls = controlsRef?.current;
 
-          if (focusedPoint) {
-            controls?.reset();
-            clearFocusedPoint();
+          const controls = controlsRef.current;
+
+          if (focusedPoint != null) {
+            clearFocusedPoint(); //to go back to the reset position and clear the focusedpoints coordinates
           } else {
-            controls?.saveState();
+            controls?.saveState(); //saves the current world position coordinates
             setFocusedPoint(pos);
           }
         }}

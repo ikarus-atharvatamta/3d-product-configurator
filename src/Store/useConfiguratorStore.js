@@ -13,9 +13,10 @@ export const useConfiguratorStore = create((set) => ({
   camera: null,
   exportModel: false,
   arModelurl: null,
-  focusedPoint : null,
-  setFocusedPoint : (pos)=>set({focusedPoint :pos}),
-  clearFocusedPoint : ()=> set({focusedPoint: null}),
+  focusedPoint: null, //to handle annotation
+  isResetting: false, //for resetting lerp
+  setFocusedPoint: (pos) => set({ focusedPoint: pos, isResetting: false }), //saves the current position
+  clearFocusedPoint: () => set({ focusedPoint: null, isResetting: true }),
   setProductId: (id) =>
     set({
       productId: id, //resetting dependent state in setProductid
@@ -34,9 +35,9 @@ export const useConfiguratorStore = create((set) => ({
   toggleMeasurements: () =>
     set((state) => ({ showMeasurements: !state.showMeasurements })),
   setThreeState: (gl, scene, camera) => set({ gl, scene, camera }),
-  triggerExport: () => set({ exportModel: true,arModelurl:null }),
+  triggerExport: () => set({ exportModel: true, arModelurl: null }),
   //export the model
   resetExport: () => set({ exportModel: false }),
-  setArModelurl :(url) => set({arModelurl:url}),
-  clearArModelurl : ()=> set({arModelurl:null })
+  setArModelurl: (url) => set({ arModelurl: url }),
+  clearArModelurl: () => set({ arModelurl: null }),
 }));

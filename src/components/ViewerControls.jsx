@@ -40,31 +40,12 @@ const ViewerControls = ({ controlsRef }) => {
   };
   const zoomIn = () => {
     const controls = controlsRef.current;
-    const camera = controls.object;
-
-    const direction = camera.position.clone().sub(controls.target).normalize();
-
-    const distacnce = camera.position.distanceTo(controls.target);
-    const newDistance = Math.max(distacnce - 0.3, controls.minDistance);
-
-    camera.position.copy(
-      controls.target.clone().add(direction.multiplyScalar(newDistance)),
-    );
-    controls.update();
+controls.dolly(0.4, true);
   };
   const zoomOut = () => {
     const controls = controlsRef.current;
-    const camera = controls.object;
+    controls.dolly(-0.4,true);
 
-    const direction = camera.position.clone().sub(controls.target).normalize();
-
-    const distacnce = camera.position.distanceTo(controls.target);
-    const newDistance = Math.min(distacnce + 0.3, controls.maxDistance);
-
-    camera.position.copy(
-      controls.target.clone().add(direction.multiplyScalar(newDistance)),
-    );
-    controls.update();
   };
   const arModelurl = useConfiguratorStore((s)=>s.arModelurl)
    return (
