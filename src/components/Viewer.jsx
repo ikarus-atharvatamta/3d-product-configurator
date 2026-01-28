@@ -8,7 +8,8 @@ import { useConfiguratorStore } from "../Store/useConfiguratorStore";
 import ThreeBridge from "./ThreeBridge";
 import CameraReset from "./CameraReset";
 import ARQRmodal from "./AR/ARQRmodal";
-
+import {useThree} from '@react-three/fiber'
+import CameraFocusController from "./CameraFocusController";
 export default function Viewer() {
 
   const modelRef = useRef();
@@ -17,7 +18,6 @@ export default function Viewer() {
     (state) => state.showMeasurements,
   );
   console.log(modelRef)
-
 
   return (
     <div className="absolute inset-0">
@@ -29,7 +29,7 @@ export default function Viewer() {
         <Stage environment="warehouse" intensity={0.16} adjustCamera={false} shadows={false} >
           {/* MODEL */}
           <Suspense fallback="loading">
-            <Furniture ref={modelRef} />
+            <Furniture ref={modelRef} controlsRef={controlsRef}/>
             <CameraReset controlsRef={controlsRef} modelRef={modelRef}/>
           </Suspense>
           </Stage>
@@ -42,18 +42,20 @@ export default function Viewer() {
 
         {/* CONTROLS */}
         <OrbitControls
-          ref={controlsRef}
+          ref={controlsRef} 
           enableDamping = {true}
           enablePan={true}
           enableRotate={true}
-          makeDefault={true}
+          makeDefault
           maxDistance={5}
           minDistance={1}
           maxPolarAngle={Math.PI*5/10}
         />
         <ThreeBridge />   
+        <CameraFocusController controlsRef={controlsRef}/>
            </Canvas>
       <ViewerControls controlsRef = {controlsRef}/>
+      
     </div>
   );
 }

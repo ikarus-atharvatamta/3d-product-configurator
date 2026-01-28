@@ -13,6 +13,9 @@ export const useConfiguratorStore = create((set) => ({
   camera: null,
   exportModel: false,
   arModelurl: null,
+  focusedPoint : null,
+  setFocusedPoint : (pos)=>set({focusedPoint :pos}),
+  clearFocusedPoint : ()=> set({focusedPoint: null}),
   setProductId: (id) =>
     set({
       productId: id, //resetting dependent state in setProductid

@@ -5,10 +5,12 @@ import * as THREE from "three";
 const CameraReset =({controlsRef,modelRef})=>{
     const {camera}= useThree();
     const productId = useConfiguratorStore((state)=> state.productId)
-    
+    const handleNumber = useConfiguratorStore((state)=> state.handleNumber);
+    const focusedPoint = useConfiguratorStore((state)=>state.focusedPoint)
     useEffect(()=>{
+   
           console.log("modelRef",modelRef)
-
+      if(focusedPoint) return;
         if(!modelRef.current || !controlsRef.current) return;
 
         const box = new THREE.Box3().setFromObject(modelRef.current);
@@ -25,4 +27,4 @@ const CameraReset =({controlsRef,modelRef})=>{
     },[productId,modelRef])
     return null;
 }
-export default CameraReset;
+export  default CameraReset;
